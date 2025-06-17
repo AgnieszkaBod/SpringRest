@@ -4,11 +4,9 @@ import com.dto.ItemDto;
 import com.entities.Item;
 import com.entities.User;
 import com.mapper.ItemMapper;
-import com.mapper.UserRegistrationMapper;
 import com.repository.ItemRepository;
 import com.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,10 +29,10 @@ public class ItemService {
         return itemMapper.mapItemToItemDto(item);
     }
 
-    public String getItems(String username) {
+    public List<ItemDto> getItems(String username) {
         User owner = userRepository.findByLogin(username)
                 .orElseThrow(() -> new RuntimeException("Owner not found"));
-        String items = itemRepository.findByOwner_Uuid(owner.getUuid());
-        return items;
+        ItemMapper itemMapper = new ItemMapper();
+        return itemMapper.mapItemToItemDto(itemRepository.findByOwner_Uuid(owner.getUuid()));
     }
 }

@@ -10,7 +10,6 @@ import java.util.UUID;
 
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long> {
-    @Query("select i.name, i.itemId from Item i where i.owner.uuid = ?1")
-String findByOwner_Uuid(UUID ownerId);
+    List<Item> findByOwner_Uuid(UUID ownerId);
 
 }
