@@ -1,0 +1,36 @@
+package com.services;
+
+import com.dto.LoginRequest;
+import com.dto.LoginResponse;
+import com.entities.User;
+import com.repository.UserRepository;
+import com.tools.security.JwtUtils;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+@Service
+public class AuthService {
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtUtils jwtUtil;
+
+    public AuthService(UserRepository userRepository,
+                       PasswordEncoder passwordEncoder,
+                       JwtUtils jwtUtil) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
+    }
+
+    public LoginResponse login(LoginRequest request) {
+        User user = userRepository.findByLogin(request.getLogin())
+                .orElseThrow(() -> new RuntimeException("Nieprawidłowy login lub hasło"));
+
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new RuntimeException("Nieprawidłowy login lub hasło");
+        }
+
+        String token = jwtUtil.generateToken(user.getLogin());
+        return new LoginResponse(token);
+    }
+}
