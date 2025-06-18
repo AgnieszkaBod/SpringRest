@@ -1,0 +1,7 @@
+POST http://localhost:8080/demo/api/items
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwbGF5ZXI4IiwiaWF0IjoxNzUwMjQxNjUzLCJleHAiOjE3NTAyNDUyNTN9.AnCqOT5s_0O96kh9he4Lz3FnqtxjsGU6Tsxn91veydk
+
+{
+  "name": "TEST"
+}

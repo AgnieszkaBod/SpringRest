@@ -30,8 +30,8 @@ public class UserControler {
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getLogin(), request.getPassword()));
-        final String token = jwtUtil.generateToken(request.getLogin());
+                new UsernamePasswordAuthenticationToken(request.login(), request.password()));
+        final String token = jwtUtil.generateToken(request.login());
         return ResponseEntity.ok(new LoginResponse(token));
     }
 }

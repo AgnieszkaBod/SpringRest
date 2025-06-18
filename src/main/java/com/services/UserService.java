@@ -6,27 +6,35 @@ import com.entities.User;
 import com.exceptions.UserAlreadyExistsExceptions;
 import com.mapper.UserRegistrationMapper;
 import com.repository.UserRepository;
-import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
-@Service
-@AllArgsConstructor
 public class UserService {
-
     private final UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
+    private final UserRegistrationMapper userRegistrationMapper;
+    private final PasswordEncoder passwordEncoder;
+
+    public UserService(UserRepository userRepository, UserRegistrationMapper userRegistrationMapper, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.userRegistrationMapper = userRegistrationMapper;
+        this.passwordEncoder = passwordEncoder;
+
+    }
+
     public UserRegistrationResponse registerUser(UserRegistrationRequest request) {
-        if (userRepository.findByLogin(request.getLogin()).isPresent()) {
-            throw new UserAlreadyExistsExceptions("Login już istnieje.");
+        if (userRepository.findByLogin(request.login()).isPresent()) {
+            throw new UserAlreadyExistsExceptions("User already exists");
         }
-        UserRegistrationMapper userRegistrationMapper = new UserRegistrationMapper();
-        String hashedPassword = passwordEncoder.encode(request.getPassword());
+        String hashedPassword = encodePassword(request);
         User user = new User();
-        user.setLogin(request.getLogin());
+        user.setLogin(request.login());
         user.setPassword(hashedPassword);
         userRepository.save(user);
 
         return userRegistrationMapper.mapUserToUserDto(user);
+    }
+
+    private String encodePassword(UserRegistrationRequest request) {
+        String hashedPassword = passwordEncoder.encode(request.password());
+        return hashedPassword;
     }
 }

@@ -6,9 +6,7 @@ import com.entities.User;
 import com.repository.UserRepository;
 import com.tools.security.JwtUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
-@Service
 public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -23,11 +21,11 @@ public class AuthService {
     }
 
     public LoginResponse login(LoginRequest request) {
-        User user = userRepository.findByLogin(request.getLogin())
-                .orElseThrow(() -> new RuntimeException("Nieprawidłowy login lub hasło"));
+        User user = userRepository.findByLogin(request.login())
+                .orElseThrow(() -> new RuntimeException("Login or password incorrect"));
 
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Nieprawidłowy login lub hasło");
+        if (!passwordEncoder.matches(request.password(), user.getPassword())) {
+            throw new RuntimeException("Login or password incorrect");
         }
 
         String token = jwtUtil.generateToken(user.getLogin());

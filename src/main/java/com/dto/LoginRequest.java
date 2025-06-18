@@ -1,11 +1,5 @@
 package com.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+public record LoginRequest(String login, String password) {
 
-@Getter
-@Setter
-public class LoginRequest {
-    private String login;
-    private String password;
 }

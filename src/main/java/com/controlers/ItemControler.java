@@ -1,7 +1,6 @@
 package com.controlers;
 
 import com.dto.ItemDto;
-import com.entities.Item;
 import com.services.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

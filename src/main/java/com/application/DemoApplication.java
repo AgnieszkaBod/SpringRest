@@ -1,5 +1,6 @@
 package com.application;
 
+import com.services.ServicesConfiguration;
 import com.tools.security.SecurityConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,7 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ComponentScan("com")
 @EntityScan("com.entities")
 @EnableJpaRepositories("com.repository")
-@Import(SecurityConfig.class)
+@Import({SecurityConfig.class, ServicesConfiguration.class})
 public class DemoApplication {
 
     public static void main(String[] args) {
