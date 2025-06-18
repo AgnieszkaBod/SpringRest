@@ -22,10 +22,10 @@ public class AuthService {
 
     public LoginResponse login(LoginRequest request) {
         User user = userRepository.findByLogin(request.login())
-                .orElseThrow(() -> new RuntimeException("Nieprawidłowy login lub hasło"));
+                .orElseThrow(() -> new RuntimeException("Login or password incorrect"));
 
         if (!passwordEncoder.matches(request.password(), user.getPassword())) {
-            throw new RuntimeException("Nieprawidłowy login lub hasło");
+            throw new RuntimeException("Login or password incorrect");
         }
 
         String token = jwtUtil.generateToken(user.getLogin());
