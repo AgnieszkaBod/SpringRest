@@ -7,6 +7,7 @@ import com.exceptions.UserAlreadyExistsExceptions;
 import com.mapper.UserRegistrationMapper;
 import com.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 public class UserService {
     private final UserRepository userRepository;
@@ -20,6 +21,7 @@ public class UserService {
 
     }
 
+    @Transactional
     public UserRegistrationResponse registerUser(UserRegistrationRequest request) {
         if (userRepository.findByLogin(request.login()).isPresent()) {
             throw new UserAlreadyExistsExceptions("User already exists");

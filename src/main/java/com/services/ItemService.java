@@ -6,6 +6,7 @@ import com.entities.User;
 import com.mapper.ItemMapper;
 import com.repository.ItemRepository;
 import com.repository.UserRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class ItemService {
         this.userRepository = userRepository;
     }
 
+    @Transactional
     public ItemDto createItem(ItemDto request, String username) {
         User owner = userRepository.findByLogin(username)
                 .orElseThrow(() -> new RuntimeException("Owner not found"));
