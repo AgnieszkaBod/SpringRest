@@ -11,9 +11,9 @@ import java.util.List;
 
 
 public class ItemService {
-    private ItemRepository itemRepository;
-    private ItemMapper itemMapper;
-    private UserRepository userRepository;
+    private final ItemRepository itemRepository;
+    private final ItemMapper itemMapper;
+    private final UserRepository userRepository;
 
     public ItemService(ItemRepository itemRepository, ItemMapper itemMapper, UserRepository userRepository) {
         this.itemRepository = itemRepository;
@@ -25,7 +25,7 @@ public class ItemService {
         User owner = userRepository.findByLogin(username)
                 .orElseThrow(() -> new RuntimeException("Owner not found"));
         Item item = new Item();
-        item.setName(request.getName());
+        item.setName(request.name());
         item.setOwner(owner);
         itemRepository.save(item);
         return itemMapper.mapItemToItemDto(item);
